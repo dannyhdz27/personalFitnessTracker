@@ -9,3 +9,5 @@ router.get("/health", (req, res, next) => {
     next(error);
   }
 });
+
+module.exports = router;
