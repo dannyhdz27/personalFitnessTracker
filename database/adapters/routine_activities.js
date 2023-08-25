@@ -23,6 +23,14 @@ async function addActivityToRoutine_Activity({
   }
 }
 
+//getRoutineActivityById(routineActivityId)
+
+// updateRoutineActivity(routineActivityId, reps, sets) - Find the routine_activity with id equal to the passed in routineActivityId
+
+//destroyRoutineActivity(routineActivityId) - this removes the activity as well by severing the reference
+
+//getRoutineActivitiesByRoutine(routineId)
+
 module.exports = {
   addActivityToRoutine_Activity,
 };

@@ -18,5 +18,18 @@ async function createRoutine({ creator_id, name, notes }) {
     console.error("there was an issue creating routine");
   }
 }
+//getRoutineById(id) - This should use a join to grab the routine that matches the id and should all include all of the matching activities
+
+//getAllRoutines()
+
+//getAllRoutinesByUser(username)
+
+//getPublicRoutinesByActivity(activityId) - elect and return an array of public routines which have a specific activity_id in their routine_activities join, include their activities (use a join)
+
+//createRoutine(creatorId, name, description)
+
+//updateRoutine(creatorId, name, description)
+
+//destroyRoutine(routineId)
 
 module.exports = { createRoutine };

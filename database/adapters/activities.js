@@ -19,4 +19,10 @@ async function createActivity({ name, description }) {
   }
 }
 
+//getActivityById(activityId)
+
+//getAllActivities()
+
+//updateActivity(activityId, name, description) - we're not updating the activityId, just the name and description
+
 module.exports = { createActivity };
