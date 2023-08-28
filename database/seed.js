@@ -69,6 +69,7 @@ async function createTables() {
         activity_id INTEGER REFERENCES activities (id),
         reps INTEGER,
         sets INTEGER,
+        weight INTEGER,
         UNIQUE (routine_id, activity_id)
       );`);
     console.log("...routine_activities table created");

@@ -5,17 +5,18 @@ async function addActivityToRoutine_Activity({
   activity_id,
   reps,
   sets,
+  weight,
 }) {
   try {
     const {
       rows: [routine_activities],
     } = await client.query(
       `
-        INSERT INTO routine_activities(routine_id, activity_id, reps, sets)
-        VALUES ($1, $2, $3, $4)
+        INSERT INTO routine_activities(routine_id, activity_id, reps, sets, weight)
+        VALUES ($1, $2, $3, $4, $5)
         RETURNING *;
       `,
-      [routine_id, activity_id, reps, sets]
+      [routine_id, activity_id, reps, sets, weight]
     );
     return routine_activities;
   } catch (error) {
