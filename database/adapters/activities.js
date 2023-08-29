@@ -15,7 +15,9 @@ async function createActivity({ name, description }) {
     );
     return activity;
   } catch (error) {
-    console.error("there was an issue creating the activities");
+    console.error(
+      "there was an issue with the create activities adapter function"
+    );
     throw error;
   }
 }
@@ -30,7 +32,9 @@ async function getActivityById(activityId) {
     WHERE id = ${activityId}`);
     return activity;
   } catch (error) {
-    console.error("there was an error getting the activity by id");
+    console.error(
+      "there was an error getting the activity by id adapter function"
+    );
     throw error;
   }
 }
@@ -43,7 +47,9 @@ async function getAllActivities() {
     `);
     return rows;
   } catch (error) {
-    console.error("there was an error getting all activities");
+    console.error(
+      "there was an error with get all activities adapter function"
+    );
     throw error;
   }
 }

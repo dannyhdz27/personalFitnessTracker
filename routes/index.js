@@ -16,8 +16,8 @@ router.use("/users", usersRouter);
 const activitiesRouter = require("./activities");
 router.use("/activities", activitiesRouter);
 
-// const routinesRouter = require("./routines");
-// router.use("/routines", routinesRouter);
+const routinesRouter = require("./routines");
+router.use("/routines", routinesRouter);
 
 // const routineActivitiesRouter = require("./routine_activities");
 // router.use("/routineactivities", routineActivitiesRouter);
