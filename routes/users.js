@@ -28,7 +28,7 @@ usersRouter.post("/register", async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const existingUser = await getUserByUsername(username);
-    console.log("existing user is", existingUser);
+
     if (existingUser) {
       next({ message: "that user already exists!", name: "auth error" });
       return;
@@ -54,6 +54,39 @@ usersRouter.post("/register", async (req, res, next) => {
     console.error("there was an issue registering a new user");
     next(error);
   }
+});
+
+usersRouter.post("/login", async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+
+    const user = await getUserByUsername(username);
+    console.log("Retrieved user:", user);
+
+    const checkedpassword = await bcrypt.compare(password, user.password);
+    console.log("Password comparison result:", checkedpassword);
+
+    if (checkedpassword) {
+      delete user.password;
+      const token = jwt.sign(user, JWT_SECRET);
+      res.cookie("token", token, {
+        sameSite: "strict",
+        httpOnly: true,
+        signed: true,
+      });
+      res.send(user);
+    } else {
+      next({ message: "Invalid login credentials" });
+      return;
+    }
+  } catch (error) {
+    console.error("Login error:", error);
+    next(error);
+  }
+});
+
+usersRouter.get("/me", authRequired, async (req, res, next) => {
+  res.send({ success: true, message: "you are authorized", user: req.user });
 });
 
 module.exports = usersRouter;
