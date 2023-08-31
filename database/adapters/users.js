@@ -67,6 +67,11 @@ async function getUserByUsername(username) {
     `,
       [username]
     );
+
+    // if (!user) {
+    //   return "user does not exist";
+    // }
+
     return user;
   } catch (error) {
     console.error("there was an issue getting the user by username");

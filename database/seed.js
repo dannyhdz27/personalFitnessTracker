@@ -1,6 +1,6 @@
 const { client } = require("./client");
 
-const { createUser } = require("./adapters/users");
+const { createUser, getUserByUsername } = require("./adapters/users");
 
 const { createActivity } = require("./adapters/activities");
 
@@ -112,13 +112,18 @@ async function populateTables() {
   }
 }
 
+async function testDB() {
+  const _user = await getUserByUsername("Daniel");
+  console.log("user by username is", _user);
+}
+
 async function buildDatabase() {
   client.connect();
   try {
     await dropTables();
     await createTables();
     await populateTables();
-    // await testDB();
+    await testDB();
   } catch (error) {
     console.error(error);
   } finally {
