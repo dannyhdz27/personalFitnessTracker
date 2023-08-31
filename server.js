@@ -11,6 +11,14 @@ server.use(express.json()); //parse incoming JSON payloads in the request body. 
 const morgan = require("morgan"); //automatically generates logs for each incoming request and corresponding response. Extremely helpful for monitoring and debugging.
 server.use(morgan("dev"));
 
+const cookieParser = require("cookie-parser");
+
+const cors = require("cors");
+server.use(cors());
+
+require("dotenv").config();
+server.use(cookieParser(process.env.COOKIE_SECRET));
+
 server.get("/", (req, res) => {
   res.send("This is the HOME page");
 });
