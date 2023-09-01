@@ -1,5 +1,6 @@
 const { client } = require("../client");
 
+//here we're creating a new routine_activity. this connects the routine to the activity. if there's no routine, then you can't create a ra. consider error handling?
 async function addActivityToRoutine_Activity(
   routine_id,
   activity_id,
@@ -46,13 +47,7 @@ async function getRoutineActivityById(routineActivityId) {
 }
 
 // updateRoutineActivity(routineActivityId, reps, sets) - Find the routine_activity with id equal to the passed in routineActivityId
-async function updateRoutineActivity(
-  routineActivityId,
-  reps,
-  sets,
-  weight,
-  userId
-) {
+async function updateRoutineActivity(routineActivityId, reps, sets, weight) {
   try {
     const {
       rows: [routineActivity],
@@ -62,14 +57,13 @@ async function updateRoutineActivity(
       FROM routines
       WHERE routine_activities.id = $4
       AND routine_activities.routine_id = routines.id
-      AND routines.creator_id = $5
-      RETURNING *;
+      
         `,
-      [reps, sets, routineActivityId, userId]
+      [reps, sets, weight, routineActivityId]
     );
     return routineActivity;
   } catch (error) {
-    console.error("there was an issue updating routine activity in route");
+    console.error("there was an issue updating routine activity in adapter");
     throw error;
   }
 }
@@ -90,9 +84,30 @@ async function destroyRoutineActivity(routineActivityId) {
 
 //getRoutineActivitiesByRoutine(routineId)
 
+async function getRoutineActivityByRoutine(routineId) {
+  try {
+    const {
+      rows: [routine],
+    } = await client.query(
+      `
+        SELECT * FROM routine_activities
+        WHERE routine_id = $1
+      `,
+      [routineId]
+    );
+    return routine;
+  } catch (error) {
+    console.error(
+      "there was an error getting routine_activity by routine in adapter"
+    );
+    throw error;
+  }
+}
+
 module.exports = {
   addActivityToRoutine_Activity,
   getRoutineActivityById,
   updateRoutineActivity,
   destroyRoutineActivity,
+  getRoutineActivityByRoutine,
 };

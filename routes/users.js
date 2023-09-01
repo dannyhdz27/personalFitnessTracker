@@ -79,7 +79,7 @@ usersRouter.post("/login", async (req, res, next) => {
         httpOnly: true,
         signed: true,
       });
-      res.send("Login succsesful", user);
+      res.json({ message: "Login successful", user });
     } else {
       next({ message: "Invalid login credentials" });
       return;

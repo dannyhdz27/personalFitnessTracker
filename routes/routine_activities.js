@@ -1,9 +1,10 @@
 const routineActivitiesRouter = require("express").Router();
+const { authRequired } = require("./auth");
 
 const {
   getRoutineActivityById,
-
   addActivityToRoutine_Activity,
+  updateRoutineActivity,
 } = require("../database/adapters/routine_activities");
 
 routineActivitiesRouter.get("/:id", async (req, res, next) => {
@@ -35,6 +36,25 @@ routineActivitiesRouter.post("/", async (req, res, next) => {
 });
 
 //PATCH /routine_activities/:routineActivityId  ** need authorization from logged in user
+routineActivitiesRouter.patch(
+  "/:routineActivityId",
+  authRequired,
+  async (req, res, next) => {
+    try {
+      const { routineActivityId } = req.params;
+      const { reps, sets, weight } = req.body;
+      const updatedRoutineActivity = await updateRoutineActivity(
+        routineActivityId,
+        reps,
+        sets,
+        weight
+      );
+      res.send(updatedRoutineActivity);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 //DELETE /routine_activities/:routineActivityId ** need authorization from logged in user
 
