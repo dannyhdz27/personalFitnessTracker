@@ -1,9 +1,18 @@
 const jwt = require("jsonwebtoken");
 
 const authRequired = (req, res, next) => {
+  const token = req.signedCookies.token;
+
+  if (!token) {
+    return res.status(401).json({
+      loggedIn: false,
+      message: "You are not authorized! Token missing.",
+    });
+  }
+
   try {
-    const token = req.signedCookies.token;
     req.user = jwt.verify(token, process.env.JWT_SECRET);
+    next();
   } catch (error) {
     res.status(401).send({
       loggedIn: false,
@@ -11,7 +20,6 @@ const authRequired = (req, res, next) => {
     });
     return;
   }
-  next();
 };
 
 module.exports = { authRequired };

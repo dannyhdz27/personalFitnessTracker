@@ -51,7 +51,7 @@ usersRouter.post("/register", async (req, res, next) => {
       data: newUser,
     });
   } catch (error) {
-    console.error("there was an issue registering a new user");
+    console.error("There was an issue registering a new user");
     next(error);
   }
 });
@@ -62,6 +62,11 @@ usersRouter.post("/login", async (req, res, next) => {
 
     const user = await getUserByUsername(username);
     console.log("Retrieved user:", user);
+
+    if (!user) {
+      next({ message: "That user does not exist!", name: "auth error" });
+      return;
+    }
 
     const checkedpassword = await bcrypt.compare(password, user.password);
     console.log("Password comparison result:", checkedpassword);
@@ -74,7 +79,7 @@ usersRouter.post("/login", async (req, res, next) => {
         httpOnly: true,
         signed: true,
       });
-      res.send(user);
+      res.send("Login succsesful", user);
     } else {
       next({ message: "Invalid login credentials" });
       return;
@@ -86,7 +91,24 @@ usersRouter.post("/login", async (req, res, next) => {
 });
 
 usersRouter.get("/me", authRequired, async (req, res, next) => {
-  res.send({ success: true, message: "you are authorized", user: req.user });
+  res.send({ success: true, message: "you are authorized!", user: req.user });
+});
+
+usersRouter.get("/logout", async (req, res, next) => {
+  try {
+    res.clearCookie("token", {
+      sameSite: "strict",
+      httpOnly: true,
+      signed: true,
+    });
+    res.send({
+      success: true,
+      message: "You are logged out!",
+    });
+  } catch (error) {
+    console.error("There was an issue logging out");
+    next(error);
+  }
 });
 
 module.exports = usersRouter;
