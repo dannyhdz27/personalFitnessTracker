@@ -7,6 +7,7 @@ const {
   updateRoutine,
   destroyRoutine,
 } = require("../database/adapters/routines");
+const { authRequired } = require("./auth");
 // GET /routines
 routinesRouter.get("/", async (req, res, next) => {
   try {
@@ -29,9 +30,10 @@ routinesRouter.get("/:id", async (req, res, next) => {
   }
 });
 // POST /routines *need to be logged in
-routinesRouter.post("/", async (req, res, next) => {
+routinesRouter.post("/", authRequired, async (req, res, next) => {
   try {
     const { creator_id, name, notes } = req.body;
+    console.log(req.body);
     const createdRoutine = await createRoutine({
       creator_id,
       name,

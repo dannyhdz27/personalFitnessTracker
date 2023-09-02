@@ -6,7 +6,7 @@ async function createRoutine({ creator_id, name, notes }) {
       rows: [routine],
     } = await client.query(
       `
-        INSERT INTO routines("creator_id", name, notes)
+        INSERT INTO routines(creator_id, name, notes)
         VALUES($1,$2,$3)
         ON CONFLICT (name) DO NOTHING 
         RETURNING *;
@@ -15,7 +15,7 @@ async function createRoutine({ creator_id, name, notes }) {
     );
     return routine;
   } catch (error) {
-    console.error("there was an issue creating routine");
+    console.error("there was an issue creating routine in adapter");
     throw error;
   }
 }

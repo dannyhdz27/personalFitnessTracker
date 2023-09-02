@@ -1,4 +1,4 @@
-//this is where we set up our server using express. Remember to npm install express.
+//this is where we set up our server using express.
 const express = require("express");
 const server = express();
 const port = 3000;

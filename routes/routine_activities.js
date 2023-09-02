@@ -5,7 +5,10 @@ const {
   getRoutineActivityById,
   addActivityToRoutine_Activity,
   updateRoutineActivity,
+  destroyRoutineActivity,
 } = require("../database/adapters/routine_activities");
+
+const { getRoutineById } = require("../database/adapters/routines");
 
 routineActivitiesRouter.get("/:id", async (req, res, next) => {
   try {
@@ -51,11 +54,50 @@ routineActivitiesRouter.patch(
       );
       res.send(updatedRoutineActivity);
     } catch (error) {
+      console.error(
+        "there was an error updating routine activity by id in route"
+      );
       next(error);
     }
   }
 );
 
 //DELETE /routine_activities/:routineActivityId ** need authorization from logged in user
+routineActivitiesRouter.delete(
+  "/:routineActivityId",
+  authRequired,
+  async (req, res, next) => {
+    // get the routineById and make sure the req.user.id is the routine's crator_id
+    try {
+      const routineActivityId = req.params.routineActivityId;
+      const routineActivity = await getRoutineActivityById(routineActivityId);
+
+      if (!routineActivity) {
+        // Handle the case where the routine activity doesn't exist
+        res.status(404).json({ message: "Routine activity not found" });
+        return;
+      }
+
+      if (req.user.id === routineActivity.creator_id) {
+        const destroyedActivityRoutine = await destroyRoutineActivity(
+          routineActivityId
+        );
+        console.log("destroyedActivityRoutine:", destroyedActivityRoutine);
+        res.json({ message: "Routine activity destroyed" });
+      } else {
+        res.status(403).json({
+          message: "You are not authorized to delete this routine activity",
+        });
+      }
+
+      // DELETE FROM routine_activities where routine_id = ( this will be $1 --req.params.routineId) AND activity_id = ( this will be $2 req.params.acitivtyId
+    } catch (error) {
+      console.error(
+        "there was an error deleting routine activity from routine in route"
+      );
+      next(error);
+    }
+  }
+);
 
 module.exports = routineActivitiesRouter;
