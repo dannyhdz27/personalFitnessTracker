@@ -89,8 +89,6 @@ routineActivitiesRouter.delete(
           message: "You are not authorized to delete this routine activity",
         });
       }
-
-      // DELETE FROM routine_activities where routine_id = ( this will be $1 --req.params.routineId) AND activity_id = ( this will be $2 req.params.acitivtyId
     } catch (error) {
       console.error(
         "there was an error deleting routine activity from routine in route"

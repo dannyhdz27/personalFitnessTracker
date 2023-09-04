@@ -27,6 +27,7 @@ async function getRoutineById(id) {
     `
     SELECT 
     routines.id as id,
+    routines.creator_id as creator_id,
     routines.name as name,
     routines.notes as notes,
     CASE WHEN routine_activities.routine_id IS NULL THEN '[]'::json

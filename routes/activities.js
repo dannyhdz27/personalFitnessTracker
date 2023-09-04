@@ -2,7 +2,10 @@ const activitiesRouter = require("express").Router();
 const {
   getAllActivities,
   createActivity,
+  updateActivity,
 } = require("../database/adapters/activities");
+
+const { authRequired } = require("./auth");
 
 activitiesRouter.get("/", async (req, res, next) => {
   try {
@@ -27,7 +30,23 @@ activitiesRouter.post("/", async (req, res, next) => {
 });
 
 // PATCH /activities/:adcitivtyId *need to be logged in
+activitiesRouter.patch("/:activityId", authRequired, async (req, res, next) => {
+  try {
+    const { activityId } = req.params;
+    const { name, description } = req.body;
+    const updatedActivity = await updateActivity(
+      activityId,
+      name,
+      description,
+      req.user.id
+    );
 
-// GET /activities/:activityId:routines  - get a list of all public routines that have the activity.
+    res.send(updatedActivity);
+  } catch (error) {
+    next({ message: "invalid user credentials" });
+  }
+});
+
+// GET /activities/:activityId/:routines  - get a list of all routines that have the activity.
 
 module.exports = activitiesRouter;

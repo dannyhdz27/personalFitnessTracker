@@ -50,7 +50,7 @@ async function createTables() {
     id SERIAL PRIMARY KEY,
     creator_id INTEGER REFERENCES users(id),
     name VARCHAR(255)UNIQUE NOT NULL,
-    notes TEXT NOT NUll
+    notes TEXT NOT NULL
   );`);
     console.log("...routines tables created");
 
