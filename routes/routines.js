@@ -91,5 +91,4 @@ routinesRouter.delete("/:routineId", authRequired, async (req, res, next) => {
   }
 });
 
-// DELETE /routines/:routineId ** only logged in user who created this routine can delete it.
 module.exports = routinesRouter;
