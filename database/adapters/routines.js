@@ -77,9 +77,11 @@ async function getAllRoutines() {
       )
     ) END AS activities
     FROM routines
+    LEFT JOIN users ON routines.creator_id = users.id 
     FULL OUTER JOIN routine_activities ON routines.id = routine_activities.routine_id
     FULL OUTER JOIN activities ON activities.id = routine_activities.activity_id
-    GROUP BY routines.id, routine_activities.routine_id
+    GROUP BY routines.id, routines.name, routines.notes, users.username, routine_activities.routine_id 
+    
 
   `);
     return rows;

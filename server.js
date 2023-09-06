@@ -15,7 +15,7 @@ server.use(morgan("dev"));
 
 const cookieParser = require("cookie-parser");
 
-app.use(express.static(path.join(__dirname, "./client", "dist"))); //This piece of middleware uses the built in path module from node, so we dont need to npm install it, but we do need to require it at the top of our express app
+server.use(express.static(path.join(__dirname, "./client", "dist"))); //This piece of middleware uses the built in path module from node, so we dont need to npm install it, but we do need to require it at the top of our express app
 
 const cors = require("cors");
 server.use(cors());
@@ -40,7 +40,7 @@ server.use((err, req, res, next) => {
 });
 
 //When you go to any other route not specified in the express part of your app, you will hit your finished react application.
-app.use((req, res, next) => {
+server.use((req, res, next) => {
   res.sendFile(path.join(__dirname, "./client/dist", "index.html"));
 });
 
