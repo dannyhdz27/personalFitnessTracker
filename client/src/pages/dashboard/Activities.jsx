@@ -1,4 +1,4 @@
-import getActivities from "../api/activities";
+import getActivities from "../../api/activities";
 import { useState, useEffect } from "react";
 
 const ActivitiesComponent = () => {

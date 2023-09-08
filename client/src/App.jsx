@@ -1,7 +1,7 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import ActivitiesComponent from "./components/Activities";
-import RoutinesComponent from "./components/Routines";
+import RoutinesComponent from "./pages/dashboard/Routines";
+import ActivitiesComponent from "./pages/dashboard/Activities";
 
 function App() {
   return (
