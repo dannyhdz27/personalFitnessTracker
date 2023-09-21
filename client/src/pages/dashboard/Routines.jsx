@@ -11,14 +11,13 @@ const RoutinesComponent = () => {
     }
     fetchRoutines();
   }, []);
-  console.log("routines??", routines);
-
+  console.log(routines);
   return (
     <div className="routines-container">
       {routines.map((routine, idx) => (
         <div key={idx} className="routine-card">
           <h1 className="routine-card__name">Routine: {routine.name}</h1>
-          <p className="routine-card__goal">Notes: {routine.notes}</p>
+          <p className="routine-card__notes">Notes: {routine.notes}</p>
 
           <p className="routine-card__user">User: {routine.username}</p>
         </div>

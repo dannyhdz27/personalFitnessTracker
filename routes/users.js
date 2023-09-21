@@ -37,6 +37,7 @@ usersRouter.post("/register", async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
     console.log("hashed password:", hashedPassword);
     const newUser = await createUser({ username, password: hashedPassword });
+    delete newUser.password;
     const token = jwt.sign(newUser, JWT_SECRET);
 
     res.cookie("token", token, {
@@ -44,7 +45,7 @@ usersRouter.post("/register", async (req, res, next) => {
       httpOnly: true,
       signed: true,
     });
-    delete newUser.password;
+
     res.send({
       success: true,
       message: "thank you for signing up!",

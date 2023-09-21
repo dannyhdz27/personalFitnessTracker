@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import { fetchMe } from "../api/users";
+import { fetchMe } from "../api/user";
 
 export const AuthContext = createContext();
 
@@ -10,7 +10,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     async function getMe() {
       try {
-        const { success, user } = await fetchMe();
+        const { user } = await fetchMe();
         setUser(user);
         setLoggedIn(true);
       } catch (error) {
@@ -26,9 +26,6 @@ const AuthProvider = ({ children }) => {
     setUser,
     loggedIn,
     setLoggedIn,
-  };
-  AuthProvider.propTypes = {
-    children: PropTypes.node.isRequired,
   };
 
   console.log("user from Auth Context", user);

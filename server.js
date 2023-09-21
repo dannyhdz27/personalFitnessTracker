@@ -1,3 +1,4 @@
+require("dotenv").config();
 //this is where we set up our server using express.
 const express = require("express");
 const server = express();
@@ -13,15 +14,13 @@ server.use(express.json()); //parse incoming JSON payloads in the request body. 
 const morgan = require("morgan"); //automatically generates logs for each incoming request and corresponding response. Extremely helpful for monitoring and debugging.
 server.use(morgan("dev"));
 
-const cookieParser = require("cookie-parser");
+const cookieParser = require("cookie-parser"); //when we create a token, we want to attach it to a cookie.
+server.use(cookieParser(process.env.COOKIE_SECRET));
 
 server.use(express.static(path.join(__dirname, "./client", "dist"))); //This piece of middleware uses the built in path module from node, so we dont need to npm install it, but we do need to require it at the top of our express app
 
 const cors = require("cors");
 server.use(cors());
-
-require("dotenv").config();
-server.use(cookieParser(process.env.COOKIE_SECRET));
 
 server.get("/", (req, res) => {
   res.send("This is the HOME page");
