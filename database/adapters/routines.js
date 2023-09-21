@@ -94,7 +94,7 @@ async function getAllRoutines() {
 //getAllRoutinesByUser(username)
 async function getRoutinesByUser(username) {
   try {
-    const { rows } = client.query(
+    const { rows: routinesByUser } = await client.query(
       `
       SELECT 
       routines.id as id,
@@ -121,7 +121,7 @@ async function getRoutinesByUser(username) {
     `,
       [username]
     );
-    return rows;
+    return routinesByUser;
   } catch (error) {
     console.error("there was a error getting routine by user");
     throw error;

@@ -3,6 +3,9 @@ const {
   getUserByUsername,
   createUser,
 } = require("../database/adapters/users");
+
+const { getRoutinesByUser } = require("../database/adapters/routines");
+
 const { authRequired } = require("./auth");
 
 require("dotenv").config();
@@ -108,6 +111,16 @@ usersRouter.get("/logout", async (req, res, next) => {
     });
   } catch (error) {
     console.error("There was an issue logging out");
+    next(error);
+  }
+});
+
+usersRouter.get("/:username", async (req, res, next) => {
+  try {
+    const username = req.params.username;
+    const routinesByUser = await getRoutinesByUser(username);
+    res.send({ routinesByUser });
+  } catch (error) {
     next(error);
   }
 });

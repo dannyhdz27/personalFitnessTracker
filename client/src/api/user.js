@@ -29,11 +29,13 @@ export async function loginUser(username, password) {
       password,
     }),
   });
-  const { success, message, data } = await response.json();
+  const responseBody = await response.json();
+  console.log("Response:", responseBody);
+
+  const { success, message, data } = responseBody;
+
   if (!success) {
-    throw {
-      message,
-    };
+    throw new Error(message);
   }
   return { success, message, data };
 }
@@ -47,4 +49,15 @@ export async function fetchMe() {
     };
   }
   return { success, message, user };
+}
+
+export async function logout() {
+  const response = await fetch("/api/users/logout");
+  const { success, message, data } = await response.json();
+  if (!success) {
+    throw {
+      message,
+    };
+  }
+  return { success, message, data };
 }

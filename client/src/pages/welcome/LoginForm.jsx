@@ -1,10 +1,12 @@
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { loginUser } from "../../api/user";
+import { useNavigate, Link } from "react-router-dom";
 
 const LoginFormComponent = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
   const { setLoggedIn } = useAuth();
 
   const handleSubmit = async (e) => {
@@ -12,13 +14,18 @@ const LoginFormComponent = () => {
     // Perform login logic, e.g., call an API
 
     try {
-      const result = await loginUser(username, password);
+      let result = await loginUser(username, password);
       if (result.success) {
         setLoggedIn(true);
 
         console.log("Auth Results", result);
+        // navigate("/dashboard");
       }
-    } catch (error) {}
+    } catch (error) {
+      setError(error.message);
+    }
+    setUsername("");
+    setPassword("");
   };
 
   return (
@@ -39,6 +46,7 @@ const LoginFormComponent = () => {
         onChange={(e) => setPassword(e.target.value)}
       />
       <button type="submit">Submit</button>
+      <p>Need an account? Register here</p>
     </form>
   );
 };
