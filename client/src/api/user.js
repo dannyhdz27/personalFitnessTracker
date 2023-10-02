@@ -30,7 +30,7 @@ export async function loginUser(username, password) {
     }),
   });
   const responseBody = await response.json();
-  console.log("Response:", responseBody);
+  console.log("the api response:", responseBody);
 
   const { success, message, data } = responseBody;
 
@@ -60,4 +60,14 @@ export async function logout() {
     };
   }
   return { success, message, data };
+}
+
+export async function getUserRoutines(username) {
+  try {
+    const response = await fetch(`/api/users/${username}`);
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
 }

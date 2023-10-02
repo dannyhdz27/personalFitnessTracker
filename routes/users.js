@@ -83,7 +83,7 @@ usersRouter.post("/login", async (req, res, next) => {
         httpOnly: true,
         signed: true,
       });
-      res.json({ message: "Login successful", user });
+      res.json({ success: true, message: "Login successful", data: user });
     } else {
       next({ message: "Invalid login credentials" });
       return;
@@ -119,7 +119,8 @@ usersRouter.get("/:username", async (req, res, next) => {
   try {
     const username = req.params.username;
     const routinesByUser = await getRoutinesByUser(username);
-    res.send({ routinesByUser });
+    console.log("Routines by User:", routinesByUser);
+    res.send(routinesByUser);
   } catch (error) {
     next(error);
   }
