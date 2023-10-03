@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { getUserRoutines } from "../../api/user";
 
 const MyRoutinesComponent = () => {
+  const { username } = useAuth();
   const [user, setUser] = useState(useAuth());
   console.log("user:", user);
 
@@ -12,7 +13,7 @@ const MyRoutinesComponent = () => {
     async function getRoutinesbyUser() {
       setUser(user);
       try {
-        const response = await getUserRoutines(user);
+        const response = await getUserRoutines(username);
         console.log("user:", user);
 
         console.log("API Response:", response);
@@ -36,7 +37,15 @@ const MyRoutinesComponent = () => {
           myRoutines.map((routine, idx) => (
             <div key={idx} className="routinecard">
               <p>Routine:{routine.name}</p>
-              <p>{routine.notes}</p>
+              {routine.activities.map((activity, activityIdx) => (
+                <div key={activityIdx} className="activitycard">
+                  <p>Activity Name: {activity.name}</p>
+                  <p>Description: {activity.description}</p>
+                  <p>Reps: {activity.reps}</p>
+                  <p>Sets: {activity.sets}</p>
+                  <p>Weight: {activity.weight}</p>
+                </div>
+              ))}
             </div>
           ))
         )}
