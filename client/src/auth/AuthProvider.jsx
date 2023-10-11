@@ -4,8 +4,8 @@ import { fetchMe } from "../api/user";
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState({ username: "Stranger" });
-  const [loggedIn, setLoggedIn] = useState(null);
+  const [user, setUser] = useState({ username: "stranger" });
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     async function getMe() {
@@ -18,8 +18,10 @@ const AuthProvider = ({ children }) => {
         setLoggedIn(false);
       }
     }
-    getMe();
-  }, []);
+    if (!loggedIn) {
+      getMe();
+    }
+  }, [loggedIn]);
 
   const contextValue = {
     user,

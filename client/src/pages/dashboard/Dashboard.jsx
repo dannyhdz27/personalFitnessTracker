@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import ActivitiesComponent from "./Activities";
 import RoutinesComponent from "./Routines";
+import LogoutComponent from "./Logout";
 
 const DashboardComponent = () => {
   return (
@@ -8,6 +9,7 @@ const DashboardComponent = () => {
       <Link to="/activities">exercises</Link>
       <Link to="/routines">routines</Link>
       <Link to="/myroutines">my routines</Link>
+      <LogoutComponent />
     </>
   );
 };

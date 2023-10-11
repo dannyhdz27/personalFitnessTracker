@@ -1,30 +1,42 @@
 import useAuth from "../../hooks/useAuth";
 import { useState, useEffect } from "react";
 import { getUserRoutines } from "../../api/user";
+import { useNavigate } from "react-router-dom";
 
 const MyRoutinesComponent = () => {
-  const { username } = useAuth();
-  const [user, setUser] = useState(useAuth());
+  const { username, user, loggedIn } = useAuth();
+  // const [user, setUser] = useState(useAuth());
+  const navigate = useNavigate();
   console.log("user:", user);
 
   const [myRoutines, setMyRoutines] = useState([]);
 
   useEffect(() => {
-    async function getRoutinesbyUser() {
-      setUser(user);
-      try {
-        const response = await getUserRoutines(username);
-        console.log("user:", user);
+    if (loggedIn) {
+      async function getRoutinesbyUser() {
+        // setUser(user);
+        try {
+          const response = await getUserRoutines(username);
+          console.log("user:", user);
 
-        console.log("API Response:", response);
-        setMyRoutines(response);
-      } catch (error) {
-        console.error("API Request Error:", error);
+          console.log("API Response:", response);
+          setMyRoutines(response);
+        } catch (error) {
+          console.error("API Request Error:", error);
+        }
       }
+      getRoutinesbyUser();
+    } else {
+      // If not logged in, reset myRoutines to an empty array
+      setMyRoutines([]);
     }
-    getRoutinesbyUser();
+
     console.log("myRoutines:", myRoutines);
-  }, [user]);
+  }, [loggedIn, user]);
+
+  const handleNavigateToDashboard = () => {
+    navigate("/dashboard");
+  };
 
   return (
     <>
@@ -50,6 +62,7 @@ const MyRoutinesComponent = () => {
           ))
         )}
       </div>
+      <button onClick={handleNavigateToDashboard}>Dashboard</button>
     </>
   );
 };
