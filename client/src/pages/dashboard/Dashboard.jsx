@@ -6,11 +6,20 @@ import LogoutComponent from "./Logout";
 const DashboardComponent = () => {
   return (
     <>
-      <Link to="/activities">exercises</Link>
-      <Link to="/routines">routines</Link>
-      <Link to="/myroutines">my routines</Link>
-      <LogoutComponent />
+      <div className="button-container">
+        <Link to="/activities" className="link-button">
+          exercises
+        </Link>
+        <Link to="/routines" className="link-button">
+          routines
+        </Link>
+        <Link to="/myroutines" className="link-button">
+          my routines
+        </Link>
+        <LogoutComponent />
+      </div>
     </>
   );
 };
+
 export default DashboardComponent;

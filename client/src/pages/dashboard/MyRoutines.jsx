@@ -44,18 +44,24 @@ const MyRoutinesComponent = () => {
       <h2> my routines</h2>
       <div>
         {myRoutines.length === 0 ? (
-          <p>You don't have any routines yet!</p>
+          <p className="no-routines-message">
+            You don't have any routines yet!
+          </p>
         ) : (
           myRoutines.map((routine, idx) => (
-            <div key={idx} className="routinecard">
-              <p>Routine:{routine.name}</p>
+            <div key={idx} className="routine-container">
+              <p className="routine-name">Routine: {routine.name}</p>
               {routine.activities.map((activity, activityIdx) => (
-                <div key={activityIdx} className="activitycard">
-                  <p>Activity Name: {activity.name}</p>
-                  <p>Description: {activity.description}</p>
-                  <p>Reps: {activity.reps}</p>
-                  <p>Sets: {activity.sets}</p>
-                  <p>Weight: {activity.weight}</p>
+                <div key={activityIdx} className="activity-card">
+                  <p className="activity-name">
+                    Activity Name: {activity.name}
+                  </p>
+                  <p className="activity-description">
+                    Description: {activity.description}
+                  </p>
+                  <p className="activity-reps">Reps: {activity.reps}</p>
+                  <p className="activity-sets">Sets: {activity.sets}</p>
+                  <p className="activity-weight">Weight: {activity.weight}</p>
                 </div>
               ))}
             </div>
@@ -63,6 +69,7 @@ const MyRoutinesComponent = () => {
         )}
       </div>
       <button onClick={handleNavigateToDashboard}>Dashboard</button>
+      <button>Create a Routine</button>
     </>
   );
 };
